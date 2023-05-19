@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Transaction</string>
+    <string name="meterNoHeading">METER NUMBER</string>
+    <string name="meterNameHeading">METER NAME</string>
+    <string name="phoneNoHeading">PHONE NUMBER</string>
+
+    <string name="serviceProvLabel">SERVICE PROVIDER</string>
+    <string name="productLabel">PRODUCT</string>
+    <string name="addressLabel">ADDRESS</string>
+    <string name="timeLabel">TIMESTAMP</string>
+
+    <string name="amountLabel">AMOUNT</string>
+    <string name="numOfunitLabel">NUMBER OF UNIT</string>
+    <string name="servChargeLabel">SERVICE CHARGE</string>
+
+
+    <string name="meterNo">45701304771</string>
+    <string name="meterName">Ohiaeri Kenechukwu</string>
+    <string name="phoneNo">08105034259</string>
+    <string name="screenName">Confirm transaction</string>
+    <string name="paymentBtn">Confirm payment</string>
+
+
+    <string name="serviceProv">Abuja Distribution Centre</string>
+    <string name="product">Prepaid</string>
+    <string name="address">Plot 11032, Katampe Rd, Abuja</string>
+    <string name="timestamp">08/04/2021</string>
+
+    <string name="amount">20,000.00</string>
+    <string name="numOfUnit">4.3</string>
+    <string name="serviceCharge">100.00</string>
+</resources>
