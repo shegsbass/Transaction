@@ -4,14 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,13 +25,23 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.transaction.entity.MeterEntity
+import com.example.transaction.entity.PaymentEntity
+import com.example.transaction.entity.ServiceEntity
+import com.example.transaction.entity.meterData
+import com.example.transaction.entity.paymentData
+import com.example.transaction.entity.serviceData
 import com.example.transaction.ui.theme.TransactionTheme
 import com.example.transaction.ui.theme.backgroundcolor
+import com.example.transaction.ui.theme.bodyBgColor
 import com.example.transaction.ui.theme.labelColor
 import com.example.transaction.ui.theme.textValue
 import com.example.transaction.ui.theme.topBarColor
@@ -39,8 +53,9 @@ class MainActivity : ComponentActivity() {
             TransactionTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
+                    color = bodyBgColor
                 ){
-                        TransactionScreen()
+                        TransactionScreen(meterData, serviceData, paymentData, modifier = Modifier)
 
                 }
             }
@@ -50,14 +65,102 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TransactionScreen(
-    modifier: Modifier = Modifier,
-    
+    meter: MeterEntity,
+    service: ServiceEntity,
+    payment: PaymentEntity,
+    modifier: Modifier = Modifier
 ) {
-    Box(modifier = Modifier.fillMaxSize()){
-        AppBar()
+    Box(
+        modifier = Modifier.fillMaxSize()
+    ){
+        Column(
+            modifier = Modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AppBar()
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                Column(
+                    modifier = Modifier
+                        .width(325.dp)
+                        .height(209.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    MeterDetails(
+                        numLabel = R.string.meterNoHeading,
+                        meterNo = meter.meterNumber,
+                        nameLabel = R.string.meterNameHeading,
+                        meterName = meter.meterName,
+                        phoneLabel = R.string.phoneNoHeading,
+                        phoneNo = meter.phoneNumber,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .width(325.dp)
+                        .height(268.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    ServiceDetails(
+                        serviceProvLabel = R.string.serviceProvLabel,
+                        serviceProv = service.serviceProvider,
+                        productLabel = R.string.productLabel,
+                        product = service.product,
+                        addressLabel = R.string.addressLabel,
+                        address = service.address,
+                        timeLabel = R.string.timeLabel,
+                        timestamp = service.timeStamp
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .width(325.dp)
+                        .height(209.dp)
+                        .clip(MaterialTheme.shapes.medium)
+                        .padding(horizontal = 16.dp, vertical = 24.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    PaymentDetails(
+                        amountLabel = R.string.amountLabel,
+                        amount = payment.amount,
+                        numOfUnitLabel = R.string.numOfunitLabel,
+                        numOfUnit = payment.numOfUnit,
+                        servChargeLabel = R.string.servChargeLabel,
+                        servCharge = payment.servCharge
+
+                    )
+                }
+            }
+            
+        }
     }
 
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -166,6 +269,6 @@ fun PaymentDetails(
 @Composable
 fun TransactionScreenPreview() {
     TransactionTheme {
-        TransactionScreen()
+        TransactionScreen(meterData, serviceData, paymentData, modifier = Modifier)
     }
 }

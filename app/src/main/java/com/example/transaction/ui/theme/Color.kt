@@ -19,3 +19,5 @@ val buttonColor = Color(0xFF6AB04C)
 val topBarColor = Color(0xFF130F40)
 
 val backgroundcolor = Color(0xFFF3F4FB)
+
+val bodyBgColor = Color(0xFFF7F8F9)
