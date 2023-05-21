@@ -4,16 +4,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -42,6 +49,7 @@ import com.example.transaction.entity.serviceData
 import com.example.transaction.ui.theme.TransactionTheme
 import com.example.transaction.ui.theme.backgroundcolor
 import com.example.transaction.ui.theme.bodyBgColor
+import com.example.transaction.ui.theme.buttonColor
 import com.example.transaction.ui.theme.labelColor
 import com.example.transaction.ui.theme.textValue
 import com.example.transaction.ui.theme.topBarColor
@@ -63,105 +71,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun TransactionScreen(
-    meter: MeterEntity,
-    service: ServiceEntity,
-    payment: PaymentEntity,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ){
-        Column(
-            modifier = Modifier,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AppBar()
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Card(
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
-                ) {
-                Column(
-                    modifier = Modifier
-                        .width(325.dp)
-                        .height(209.dp)
-                        .clip(MaterialTheme.shapes.medium)
-                        .padding(horizontal = 16.dp, vertical = 24.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    MeterDetails(
-                        numLabel = R.string.meterNoHeading,
-                        meterNo = meter.meterNumber,
-                        nameLabel = R.string.meterNameHeading,
-                        meterName = meter.meterName,
-                        phoneLabel = R.string.phoneNoHeading,
-                        phoneNo = meter.phoneNumber,
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Card(
-                colors = CardDefaults.cardColors(containerColor = Color.White)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(325.dp)
-                        .height(268.dp)
-                        .clip(MaterialTheme.shapes.medium)
-                        .padding(horizontal = 16.dp, vertical = 24.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    ServiceDetails(
-                        serviceProvLabel = R.string.serviceProvLabel,
-                        serviceProv = service.serviceProvider,
-                        productLabel = R.string.productLabel,
-                        product = service.product,
-                        addressLabel = R.string.addressLabel,
-                        address = service.address,
-                        timeLabel = R.string.timeLabel,
-                        timestamp = service.timeStamp
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Card(
-                colors = CardDefaults.cardColors(containerColor = Color.White)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(325.dp)
-                        .height(209.dp)
-                        .clip(MaterialTheme.shapes.medium)
-                        .padding(horizontal = 16.dp, vertical = 24.dp),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    PaymentDetails(
-                        amountLabel = R.string.amountLabel,
-                        amount = payment.amount,
-                        numOfUnitLabel = R.string.numOfunitLabel,
-                        numOfUnit = payment.numOfUnit,
-                        servChargeLabel = R.string.servChargeLabel,
-                        servCharge = payment.servCharge
-
-                    )
-                }
-            }
-            
-        }
-    }
-
-}
-
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(){
@@ -174,15 +83,145 @@ fun AppBar(){
             }
         },
         title = {
-                    Text(
-                        text = stringResource(id = R.string.screenName),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = topBarColor,
-                        textAlign = TextAlign.Center,
-                    )
+            Text(
+                text = stringResource(id = R.string.screenName),
+                style = MaterialTheme.typography.bodyMedium,
+                color = topBarColor,
+                textAlign = TextAlign.Center,
+            )
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = backgroundcolor),
     )
+}
+
+@Composable
+fun TransactionScreen(
+    meter: MeterEntity,
+    service: ServiceEntity,
+    payment: PaymentEntity,
+    modifier: Modifier = Modifier
+) {
+    Box(){
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AppBar()
+            Spacer(modifier = Modifier.height(32.dp))
+            Column(
+                modifier = Modifier,
+            ) {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .width(325.dp)
+                            .height(209.dp)
+                            .clip(MaterialTheme.shapes.medium)
+                            .padding(horizontal = 16.dp, vertical = 24.dp),
+                    ) {
+                        MeterDetails(
+                            numLabel = R.string.meterNoHeading,
+                            meterNo = meter.meterNumber,
+                            nameLabel = R.string.meterNameHeading,
+                            meterName = meter.meterName,
+                            phoneLabel = R.string.phoneNoHeading,
+                            phoneNo = meter.phoneNumber,
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+            Column(
+                modifier = Modifier,) {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .width(325.dp)
+                            .height(268.dp)
+                            .clip(MaterialTheme.shapes.medium)
+                            .padding(horizontal = 16.dp, vertical = 24.dp),
+                    ) {
+                        ServiceDetails(
+                            serviceProvLabel = R.string.serviceProvLabel,
+                            serviceProv = service.serviceProvider,
+                            productLabel = R.string.productLabel,
+                            product = service.product,
+                            addressLabel = R.string.addressLabel,
+                            address = service.address,
+                            timeLabel = R.string.timeLabel,
+                            timestamp = service.timeStamp
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+            Column(
+                modifier = Modifier,) {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .width(325.dp)
+                            .height(209.dp)
+                            .clip(MaterialTheme.shapes.medium)
+                            .padding(horizontal = 16.dp, vertical = 24.dp),
+                    ) {
+                        PaymentDetails(
+                            amountLabel = R.string.amountLabel,
+                            amount = payment.amount,
+                            numOfUnitLabel = R.string.numOfunitLabel,
+                            numOfUnit = payment.numOfUnit,
+                            servChargeLabel = R.string.servChargeLabel,
+                            servCharge = payment.servCharge
+
+                        )
+                    }
+                }
+            }
+
+        }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            PaymentButton()
+        }
+    }
+}
+@Composable
+fun PaymentButton(){
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(97.dp)
+            .background(bodyBgColor),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = { /*TODO*/ },
+            shape = MaterialTheme.shapes.medium,
+            colors = ButtonDefaults.buttonColors(buttonColor),
+            modifier = Modifier
+                .height(48.dp)
+                .width(325.dp)
+        ) {
+            Text(
+                text = stringResource(id = R.string.paymentBtn),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    }
 }
 
 @Composable
